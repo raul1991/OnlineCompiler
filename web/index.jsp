@@ -27,7 +27,15 @@ xmlhttp.send("file="+data+"&type="+document.getElementById("type_of_file").value
 
 }
 function submitTryit()
-{
+{   
+    if(document.getElementById("type_of_file").value=="HTML"){
+       
+            alert("HTML");
+    var value=editor.getSession().getValue();
+    var iframeObject = window.frames["HOW_TO_FRAME"];
+    iframeObject.window.document.getElementById("outputContainer").innerHTML = value;
+    return;
+    }
     var value=editor.getSession().getValue();   
     alert(value);
 request_creator("fun.do",function()
@@ -38,6 +46,14 @@ request_creator("fun.do",function()
     }
 },encodeURIComponent(ace.edit("editor").getSession().getValue()));
 }
+
+
+function compileHTML () {
+    var value=editor.getSession().getValue();
+    var iframeObject = window.frames["HOW_TO_FRAME"];
+    iframeObject.window.document.getElementById("outputContainer").innerHTML = value;
+}
+
   </script>
   
 </head>
@@ -49,9 +65,9 @@ request_creator("fun.do",function()
 <td width="50%">
 
 
-<select id="type_of_file"  >
-    <option>JAVA</option>
+<select id="type_of_file">
     <option>HTML</option>
+    <option>JAVA</option>
 </select>
 <input style="font-family:verdana;float:right;" type="button" value="Submit Code &raquo;" onclick="submitTryit()">
 <div style="clear:both;"></div>
@@ -82,8 +98,7 @@ request_creator("fun.do",function()
 <td valign="top">
     <div id="viewIFRAME" class="result_output" width="100%" height="400px" >
         
-        <iframe  id="HOW_TO_FRAME" src="HowToWork.html" width="100%" height="400px"></iframe>
-        
+        <iframe  id="HOW_TO_FRAME" name="HOW_TO_FRAME" src="HowToWork.html" width="100%" height="400px"></iframe>
         
     </div>
 
