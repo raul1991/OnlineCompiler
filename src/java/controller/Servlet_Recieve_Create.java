@@ -23,24 +23,16 @@ String output;
 @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         write_result=resp.getWriter();
-
+//        createResponse("hello");    
         String file_data=req.getParameter("file");
         String file_type=req.getParameter("type");
-        if(file_type.equalsIgnoreCase("HTML"))
-            createResponse(file_data);
-        else{
-        run=new executor();
-        
-       
+//        createResponse(file_type);
+
+            run=new executor();
             output = run.execute(file_data);
-          
-      
-           
-      
+            createResponse(output);
         
-       createResponse(output);
-        
-    }
+    
 }
 public void createResponse(String response)
 {
