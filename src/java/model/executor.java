@@ -8,6 +8,7 @@ import java.io.*;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.sound.midi.Soundbank;
 import javax.swing.JOptionPane;
 
 /**
@@ -42,41 +43,40 @@ public class executor {
                 BufferedReader reader_error = new BufferedReader(new InputStreamReader(p.getErrorStream()));
                 PrintWriter writer = new PrintWriter(new OutputStreamWriter(p.getOutputStream()));
                 String str = reader.readLine();
-//                System.out.println("" + str);
-                createLog("started the log");
-                if (str.startsWith("Please")) {
-//            showDialog("inside first please");
-                    createLog("entered the path to examples");
-                    writer.println(pwd + file_path_linux+"/");
-                    writer.close();
-                }
-                
-                
+                System.out.println("line---"+str);
+//                createLog("started the log");
+
+                /**
+                 * Path to examples directory
+                 */
+                writer.println(pwd + file_path_linux);
+                writer.flush();
+//                }
+
+                /**
+                 * Path to users directory
+                 */
                 str = reader.readLine();
-//                System.out.println("" + str);
-                if (str.startsWith("Please")) {
-//            showDialog("inside first please 2");
-//                    createLog("entered the path to users");
-//                    System.out.println(pwd + file_path_linux_users + getRandom_sno()+"/");
-                    writer.println(pwd + file_path_linux_users + getRandom_sno()+"/");
-                    writer.close();
-                }
-                
-                 str = reader.readLine();
-//                System.out.println("" + str);
-                if (str.startsWith("Please")) {
-//            showDialog("inside first please 3");
-//                    createLog("entered the random number");
-                    writer.println(getRandom_sno());
-                    writer.close();
-                }
-                
-                
-                
-               
+                System.out.println("line---"+str);
+                writer.println(pwd + file_path_linux_users + getRandom_sno() + "/");
+                writer.flush();
+//                }
+
+
+                /**
+                 * package name
+                 */
+                str = reader.readLine();
+                System.out.println("line---"+str);
+                writer.println(getRandom_sno());
+                writer.flush();
+//                }
+
+
+
+
 
                 str = null;
-//            System.out.println("##########################################");
                 String error_line = null;
                 String result_line = null;
                 error = new StringBuilder();
@@ -88,7 +88,6 @@ public class executor {
                     output.append(result_line).append("</br>");
                 }
                 System.out.print(error.toString() + "/" + output.toString());
-//        System.out.println("##########################################");
                 reader.close();
                 reader_error.close();
                 writer.close();
@@ -165,12 +164,19 @@ public class executor {
             PrintWriter writer = new PrintWriter(new OutputStreamWriter(p.getOutputStream()));
             BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
             writer.println(pwd + file_path_linux);
+            writer.flush();
 //            createLog(pwd + file_path_linux);
 //            writer.close();
             writer.println("users" + random_sno);
+            writer.flush();
 //            createLog("users" + random_sno);
 //            writer.close();
-            writer.println("package users" + random_sno + ";" + data);
+            System.out.println(""+data+"\n\n");
+            data=data.replace('\n', ' ');
+            System.out.println(""+data);
+            writer.write("package users" + random_sno + ";"+data);
+            writer.flush();
+            
             writer.close();
             setRandom_sno(random_sno);
         }

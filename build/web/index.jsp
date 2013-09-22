@@ -27,7 +27,7 @@
 
             }
             function submitTryit()
-            {   
+            {   //getLines();
                 if(document.getElementById("type_of_file").value=="HTML"){
                     
                     alert("HTML");
@@ -62,7 +62,14 @@
                 iframeObject.window.document.getElementById("outputContainer").innerHTML = value;
             }
             
-            
+            function getLines(){
+                 var lines = editor.session.doc.getAllLines();
+                var code="";
+                for(i=0;i<lines.length;i++){
+                    code+=lines[i];
+                }
+                alert(code);
+            }
         </script>
 
     </head>
