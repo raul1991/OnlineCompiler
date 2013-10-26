@@ -5,24 +5,17 @@
 package model;
 
 import java.io.*;
-import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.sound.midi.Soundbank;
-import javax.swing.JOptionPane;
 
 /**
  *
  * @author user
  */
 public class executor {
-
-    private String[] cmds;
     private String file_path_win = "\\Desktop\\javaExamples\\";
     private String file_path_win_users = "\\Desktop\\javaExamples\\users";
     private String file_path_linux = "/Desktop/javaExamples/";
     private String file_path_linux_users = "/Desktop/javaExamples/users";
-    private int random_sno;
+    private long random_sno;
     private StringBuilder error;
     private StringBuilder output;
     private String pwd = System.getProperty("user.home");
@@ -31,11 +24,10 @@ public class executor {
     public String execute(String data) throws IOException {
         OS = System.getProperties().getProperty("os.name");
         System.out.println(OS);
-        createLog(OS);
+
         makeFileinDir(data);
         if (getRandom_sno() != 0) {
             String file_path = null;
-            createLog("got the os");
             if ("Linux".equals(OS)) {
                 file_path = file_path_linux;
                 Process p = Runtime.getRuntime().exec("script.sh");
@@ -43,34 +35,30 @@ public class executor {
                 BufferedReader reader_error = new BufferedReader(new InputStreamReader(p.getErrorStream()));
                 PrintWriter writer = new PrintWriter(new OutputStreamWriter(p.getOutputStream()));
                 String str = reader.readLine();
-                System.out.println("line---"+str);
-//                createLog("started the log");
+                System.out.println("line---" + str);
 
                 /**
                  * Path to examples directory
                  */
                 writer.println(pwd + file_path_linux);
                 writer.flush();
-//                }
 
                 /**
                  * Path to users directory
                  */
                 str = reader.readLine();
-                System.out.println("line---"+str);
+                System.out.println("line---" + str);
                 writer.println(pwd + file_path_linux_users + getRandom_sno() + "/");
                 writer.flush();
-//                }
 
 
                 /**
                  * package name
                  */
                 str = reader.readLine();
-                System.out.println("line---"+str);
+                System.out.println("line---" + str);
                 writer.println(getRandom_sno());
                 writer.flush();
-//                }
 
 
 
@@ -87,15 +75,12 @@ public class executor {
                 while ((result_line = reader.readLine()) != null) {
                     output.append(result_line).append("</br>");
                 }
-                System.out.print(error.toString() + "/" + output.toString());
                 reader.close();
                 reader_error.close();
                 writer.close();
-                return error.toString() + "/" + output.toString();
+                return "Error :"+error.toString() + "<br/> Output :" + output.toString();
 
             } else if ("windows".equals(System.getProperties().getProperty("os.name"))) {
-//                file_path=file_path_win;
-//                Process p=Runtime.getRuntime().exec("cmd /c"+"cd "+pwd+file_path+getRandom_sno()+"&&"+"javac Main.java"+"&&"+" "+"set CLASSPATH=.;"+pwd+"\\Desktop\\javaExamples;"+" "+"&&"+"java users"+getRandom_sno()+"."+"Main");
                 return compileExecute();
             } else {
                 return null;
@@ -130,11 +115,8 @@ public class executor {
         while ((result_line = in_no_error.readLine()) != null) {
             output.append(result_line).append("</br>");
         }
-        System.out.print(error.toString() + "/" + output.toString());
-        return error.toString() + "/" + output.toString();
+        return "Error :"+error.toString() + "<br/>Output :<br/>" + output.toString();
     }
-//    else
-//            return "could not make the file";
 
     /**
      * TODO make sure to have os independent path separators
@@ -144,7 +126,7 @@ public class executor {
      * @throws IOException
      */
     private void makeFileinDir(String data) throws FileNotFoundException, IOException {
-        int random_sno = new Random().nextInt(9999);
+        long random_sno = System.currentTimeMillis();
         if (OS.equals("Windows")) {
             File parentfolder = new File(System.getProperty("user.home") + "/Desktop/javaExamples/users" + String.valueOf(random_sno));
             boolean flag = parentfolder.mkdir();
@@ -152,7 +134,6 @@ public class executor {
             if (flag) {
                 OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(child_file));
                 writer.write("package  users" + random_sno + ";" + "\n" + data);
-                System.out.print("done!!!" + random_sno);
                 writer.close();
                 setRandom_sno(random_sno);
             } else {
@@ -165,18 +146,12 @@ public class executor {
             BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
             writer.println(pwd + file_path_linux);
             writer.flush();
-//            createLog(pwd + file_path_linux);
-//            writer.close();
             writer.println("users" + random_sno);
             writer.flush();
-//            createLog("users" + random_sno);
-//            writer.close();
-            System.out.println(""+data+"\n\n");
-            data=data.replace('\n', ' ');
-            System.out.println(""+data);
-            writer.write("package users" + random_sno + ";"+data);
+            data = data.replace('\n', ' ');
+            writer.write("package users" + random_sno + ";" + data);
             writer.flush();
-            
+
             writer.close();
             setRandom_sno(random_sno);
         }
@@ -185,26 +160,14 @@ public class executor {
     /**
      * @return the random_sno
      */
-    public int getRandom_sno() {
-        createLog("inside getRandSno");
+    public long getRandom_sno() {
         return random_sno;
     }
 
     /**
      * @param random_sno the random_sno to set
      */
-    public void setRandom_sno(int random_sno) {
+    public void setRandom_sno(long random_sno) {
         this.random_sno = random_sno;
-    }
-
-    public void createLog(String checkpoint) {
-        try {
-            PrintWriter writer = new PrintWriter("/home/raul/Desktop/outN.txt");
-            writer.write(checkpoint);
-            writer.close();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(executor.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("exception" + ex);
-        }
     }
 }

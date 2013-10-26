@@ -9,7 +9,7 @@
         <script src="ace-builds-master/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 
         <script>
-            var xmlhttp;
+            var xm;lhttp;
             function request_creator(url,cfunc,data)
             {
                 if (window.XMLHttpRequest)
@@ -75,7 +75,7 @@
     </head>
 
     <body>
-
+        
         <table border="0" class="maintable">
             <tr>
                 <td width="50%">
@@ -123,6 +123,7 @@
             <tr>
                 <td align="left" class="bottomtext">
                     Edit the code above and click "Submit Code" to see the result.
+  
                 </td>
                 <td align="right" class="bottomtext">
                     <a style="color:#617f10" href="#">About the creator</a> - Try it yourself&nbsp;
