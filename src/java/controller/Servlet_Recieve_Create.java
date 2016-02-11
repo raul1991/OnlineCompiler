@@ -10,6 +10,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.JavaExecutor;
+import model.Program;
+import model.ProgramExecutor;
+import model.ProgramResult;
 import model.executor;
 
 /**
@@ -17,28 +21,29 @@ import model.executor;
  * @author user
  */
 public class Servlet_Recieve_Create extends HttpServlet {
-private executor run;
-String output;
-    private PrintWriter write_result;
-@Override
+
+    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        write_result=resp.getWriter();
-//        createResponse("hello");    
+        PrintWriter write_result = resp.getWriter();
+
         String file_data=req.getParameter("file");
         String file_type=req.getParameter("type");
-//        createResponse(file_type);
 
-            run=new executor();
-            output = run.execute(file_data);
-            createResponse(output);
-        
-    
-}
-public void createResponse(String response)
-{
-        write_result.println(response);
+//        executor run = new executor();
+//        String output = run.execute(file_data);
+        String result;
+        if(file_type.equalsIgnoreCase("html")) {
+            result = file_data;
+        }    
+        else {
+            //Execute the program
+            ProgramExecutor executor = new JavaExecutor();
+            result = executor.start(file_data);
+        }  
+        //Create response
+        write_result.println(result);
         write_result.close();
-
+    
 }
 
 }
