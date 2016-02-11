@@ -11,14 +11,15 @@ import java.io.*;
  * @author user
  */
 public class executor {
-    private String file_path_win = "\\Desktop\\javaExamples\\";
-    private String file_path_win_users = "\\Desktop\\javaExamples\\users";
-    private String file_path_linux = "/Desktop/javaExamples/";
-    private String file_path_linux_users = "/Desktop/javaExamples/users";
+    private final String file_path_win = "\\Desktop\\javaExamples\\";
+    private final String file_path_win_users = "\\Desktop\\javaExamples\\users";
+    private final String file_path_linux = "/Desktop/javaExamples/";
+    private final String file_path_linux_users = "/Desktop/javaExamples/users";
+    private final String PATH_TO_SCRIPT = "/Users/rahulbawa/java/OnlineCompiler/scripts";
     private long random_sno;
     private StringBuilder error;
     private StringBuilder output;
-    private String pwd = System.getProperty("user.home");
+    private final String pwd = System.getProperty("user.home");
     private String OS;
 
     public String execute(String data) throws IOException {
@@ -28,9 +29,9 @@ public class executor {
         makeFileinDir(data);
         if (getRandom_sno() != 0) {
             String file_path = null;
-            if ("Linux".equals(OS)) {
+            if ("Linux".equals(OS) || "Mac OS X".equals(OS)) {
                 file_path = file_path_linux;
-                Process p = Runtime.getRuntime().exec("script.sh");
+                Process p = Runtime.getRuntime().exec(PATH_TO_SCRIPT+"/script.sh");
                 BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
                 BufferedReader reader_error = new BufferedReader(new InputStreamReader(p.getErrorStream()));
                 PrintWriter writer = new PrintWriter(new OutputStreamWriter(p.getOutputStream()));
@@ -141,7 +142,7 @@ public class executor {
             }
         } else {
 
-            Process p = Runtime.getRuntime().exec("mkdir.sh");
+            Process p = Runtime.getRuntime().exec(PATH_TO_SCRIPT+"/mkdir.sh");
             PrintWriter writer = new PrintWriter(new OutputStreamWriter(p.getOutputStream()));
             BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
             writer.println(pwd + file_path_linux);
