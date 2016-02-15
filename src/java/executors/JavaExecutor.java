@@ -3,8 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package executors;
 
+import utils.Utils;
+import beans.ProgramResult;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;

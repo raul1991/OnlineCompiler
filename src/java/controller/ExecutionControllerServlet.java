@@ -10,17 +10,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.JavaExecutor;
-import model.Program;
-import model.ProgramExecutor;
-import model.ProgramResult;
-import model.executor;
+import executors.JavaExecutor;
+import executors.ProgramExecutor;
 
 /**
  *
  * @author user
  */
-public class Servlet_Recieve_Create extends HttpServlet {
+public class ExecutionControllerServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -28,9 +25,6 @@ public class Servlet_Recieve_Create extends HttpServlet {
 
         String file_data=req.getParameter("file");
         String file_type=req.getParameter("type");
-
-//        executor run = new executor();
-//        String output = run.execute(file_data);
         String result;
         if(file_type.equalsIgnoreCase("html")) {
             result = file_data;
